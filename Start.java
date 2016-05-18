@@ -4,7 +4,7 @@
  * Set the values below as you please and the program will enumerate flat LEGO structures,
  * either strict or not with n bricks of length w for all n less than maxNumberOfBricks
  * and for all w between minBrickLenght and maxBrickLenght.
- * @author Rasmus Mølck nilsson
+ * @author Rasmus MÃ¸lck nilsson
  *
  */
 public class Start {
@@ -13,7 +13,7 @@ public class Start {
 		// TODO Auto-generated constructor stub
 	}
 	public final static boolean strict = false;
-	public final static int maxNumberOfBricks = 14;
+	public final static int maxNumberOfBricks = 12;
 	public final static byte minBrickLenght = 3;
 	public final static byte maxBrickLenght = 3;
 	
@@ -22,7 +22,7 @@ public class Start {
 		System.out.println("RUNNING LTR:");
 		
 		for(byte w = minBrickLenght; w<= maxBrickLenght;w++){
-			System.out.println("Building with " + maxNumberOfBricks + " 1x" + w + " LEGOS");
+			System.out.println("Building with " + maxNumberOfBricks + " bricks of length " + w);
 			long startTime = System.currentTimeMillis();
 			new TM(w,maxNumberOfBricks);
 			long time = System.currentTimeMillis() - startTime; 
