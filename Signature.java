@@ -1,6 +1,6 @@
 /**
  * This class holds all relevandt information for a signature:
- * @author Rasmus Mølck Nilsson
+ * @author Rasmus MÃ¸lck Nilsson
  *
  */
 public class Signature {
@@ -92,7 +92,6 @@ public class Signature {
 		}
 	}
 	public void multiplyXtoPGF(){
-		
 		for(int i = PGF.length-1; i > minimalBrickNumber ; i--){
 			PGF[i] = PGF[i-1];
 		}
@@ -142,7 +141,7 @@ public class Signature {
 		}
 	}
 	
-	public void setPrevToEnd(int fromIndex){
+	public void setPrevMidToEnd(int fromIndex){
 		int endCount = 0;
 		for(int i = fromIndex - 1; i >= 0; i--){
 			if(endCount <= 0){
@@ -170,20 +169,7 @@ public class Signature {
 		return true;
 	}
 	
-	public boolean toManyStarts(int from, int to){
-		int startCount = 0;
-		for(int i = from; i <= to; i++){
-			if(get(i) == TM.START){
-				startCount++;
-			}
-			else if(get(i) == TM.END){
-				startCount--;
-			}
-		}
-		return startCount > 0;
-	}
-	
-	public boolean toManyEnds(int from){
+	public boolean tooManyEnds(int from){
 		int endCount = 0;
 		for(int i = from; i < codeLength; i++){
 			if(get(i) == TM.START){
@@ -194,19 +180,6 @@ public class Signature {
 			}
 		}
 		return endCount > 0;
-	}
-	
-	public boolean toManyStarts(){
-		int startCount = 0;
-		for(int i = 0; i < codeLength; i++){
-			if(get(i) == TM.START){
-				startCount++;
-			}
-			else if(get(i) == TM.END){
-				startCount--;
-			}
-		}
-		return startCount != 0;
 	}
 	
 	public boolean equalStartsAndEnds(){
@@ -224,7 +197,7 @@ public class Signature {
 	
 	public void setIntermediatePrevSTARTtoMID(int fromIndex){
 		int endCount = 0;
-		boolean toManyStarts = toManyStarts();
+		boolean toManyStarts = !equalStartsAndEnds();
 		for(int i = fromIndex - 1; i >= 0; i--){
 			if(endCount == 0 && get(i) == TM.START){
 				if(toManyStarts){ // toManyStarts(0,i-1)
@@ -245,10 +218,8 @@ public class Signature {
 		int startCount = 0;
 		for(int i = fromIndex + 1; i < codeLength; i++){
 			if(startCount == 0 && get(i) == TM.END){
-				if(toManyEnds(i+1)){
-					set(i,TM.MID);
-					return;
-				}
+				set(i,TM.MID);
+				return;
 			}
 			if(get(i) == TM.START){
 				startCount++;
