@@ -1,7 +1,7 @@
 
 /**
  * This class checks if a signature can be discarded or must be kept in memory.
- * @author Rasmus Mølck Nilsson
+ * @author Rasmus MÃ¸lck Nilsson
  *
  */
 public class Pruning {
@@ -10,7 +10,7 @@ public class Pruning {
 	public static byte[] finishSceme;
 	
 	public static void init(int buildingBoxWidth){
-		finishSceme = new byte[buildingBoxWidth * 2];
+		finishSceme = new byte[buildingBoxWidth];
 	}
 	
 	/**
