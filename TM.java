@@ -5,7 +5,7 @@ import java.util.Hashtable;
  * iterating through the building space one cell at a time updating all the signatures.
  * It also holds all the references to the signatures in a hash table and in a linked list.
  * 
- * @author Rasmus Mølck Nilsson
+ * @author Rasmus MÃ¸lck Nilsson
  *
  */
 public class TM {
@@ -21,7 +21,7 @@ public class TM {
 	
 	
 	
-	private Signature signatures;
+	private Signature currentSignatures;
 	private Signature newSignatures;
 	
 	private Signature signaturePool;
@@ -51,8 +51,8 @@ public class TM {
 
 
 	private void init(){
-		signatures = new Signature(numLEGOs);
-		signatures.PGF[0] = 1;
+		currentSignatures = new Signature(numLEGOs);
+		currentSignatures.PGF[0] = 1;
 		signatureTable = new Hashtable<Signature, Signature>();
 		finalPGF = new Signature(numLEGOs);
 		
@@ -73,13 +73,15 @@ public class TM {
 			for(int i = 0; i < buildingBoxWidth ; i++){
 				
 				newSignatures = null;
-				Signature next;
-				for(Signature s = signatures; s != null; s = next){
+				Signature next = currentSignatures; //Start with the first signature in the linked list.
+				
+				while(next!= null){
+					Signature s =  next;
 					next = s.next;
 		
 					if(s.partiallyPlacedBrickCellsLeft > 0 || i > buildingBoxWidth-Signature.brickLenght){
 						
-						if(s.partiallyPlacedBrickCellsLeft > 0){ // placer 2. halvdel af LEGO-klods
+						if(s.partiallyPlacedBrickCellsLeft > 0){
 							// Continue the placement of a half-placed brick.
 							
 							byte codeValue = END;
@@ -119,7 +121,7 @@ public class TM {
 								continue;
 							}
 							else if(s.codeIs(i,END) && s.equalStartsAndEnds()){
-								s.setPrevToEnd(i);
+								s.setPrevMidToEnd(i);
 							}
 							s.write(i, FREE, false);
 							if(s.allFree()){continue;}
@@ -158,7 +160,7 @@ public class TM {
 						// Leave a cell empty:
 							
 						if(s.codeIs(i,START)){
-							if(s.toManyStarts()){
+							if(!s.equalStartsAndEnds()){
 								continue;
 							}
 							else{
@@ -168,7 +170,7 @@ public class TM {
 						}
 						else if(s.codeIs(i,END) && s.equalStartsAndEnds()){
 							
-							s.setPrevToEnd(i);
+							s.setPrevMidToEnd(i);
 							
 						}
 						
@@ -176,7 +178,7 @@ public class TM {
 						processNewSignature(s,false,j,i);
 					}
 				}
-				signatures = newSignatures;
+				currentSignatures = newSignatures;
 				setMaxNumSignatures(j+1);
 				signatureTable.clear();
 				
